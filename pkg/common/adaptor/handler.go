@@ -180,6 +180,9 @@ func (p *httpResponseWriter) Hijack() (net.Conn, *bufio.ReadWriter, error) {
 		return nil, nil, errConnHijacked
 	}
 	p.hijacked = true
+	if p.wroteHeader {
+		p.Flush()
+	}
 
 	conn := p.rc.GetConn()
 
